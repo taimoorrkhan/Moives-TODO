@@ -1,0 +1,31 @@
+name: movie-todo
+services:
+  frontend:
+    container_name: frontend
+    depends_on: 
+      - backend
+    image: taimoorrkhan/frontend_todo_app
+    ports:
+      - 3000:3000
+
+  backend: 
+    container_name: backend
+    depends_on: 
+      - db
+    image: taimoorrkhan/backend_todo_app
+    ports: 
+      - 3001:3001
+    environment: 
+      DB_URL: mongodb://db/vidly
+    command: ./docker-entrypoint.sh
+
+  db:
+    container_name: db
+    image: mongo:4.0-xenial
+    ports:
+      - 27017:27017
+    volumes:
+      - vidly:/data/db
+
+volumes:
+  vidly:
